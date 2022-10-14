@@ -13,6 +13,7 @@ private:
 	int weight;
 	int age;
 	string fitnessType;
+	string filePath;
 
 public:
 	UserData();
@@ -22,12 +23,14 @@ public:
 	int getWeight();
 	int getAge();
 	string getType();
+	string getfilePath();
 
 	void setName(string);
 	void setHeight(int);
 	void setWeight(int);
 	void setAge(int);
 	void setType(string);
+	void setfilePath(string);
 	
 	~UserData();
 };

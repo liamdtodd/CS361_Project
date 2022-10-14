@@ -11,6 +11,7 @@ UserData::UserData() {
 	weight = 0;
 	age = 0;
 	fitnessType = " ";
+	filePath = " ";
 }
 
 /**************************
@@ -36,6 +37,9 @@ string UserData::getType() {
 	return fitnessType;
 }
 
+string UserData::getfilePath() {
+	return filePath;
+}
 
 /************************
  * SETTER FUNCTIONS FOR THE USERDATA CLASS
@@ -58,6 +62,10 @@ void UserData::setAge(int a) {
 
 void UserData::setType(string fit) {
 	fitnessType = fit;
+}
+
+void UserData::setfilePath(string path) {
+	filePath = path;
 }
 
 //Deconstructor of UserData class

@@ -56,7 +56,7 @@ void UserData::setAge(int a) {
 	age = a;
 }
 
-void UserData::setType(int fit) {
+void UserData::setType(string fit) {
 	fitnessType = fit;
 }
 

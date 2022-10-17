@@ -8,6 +8,7 @@ using namespace std;
 
 //this function print's all of the user's data to the screen
 void print(UserData* user) {
+	cout << "\n=====USER PROFILE=====" << endl;
 	cout << "Name: " << user->getName() << endl;
 	cout << "Age: " << user->getAge() << " years" << endl;
 	cout << "Height: " << user->getHeight() << " inches" << endl;
@@ -141,6 +142,7 @@ void newDataUser(UserData* user) {
 		}
 	}
 	
+	file << "\n";
 	file.close();
 }
 
@@ -167,12 +169,54 @@ void checkData(UserData* user) {
 
 }
 
+//a menu of options of interactivity for the user, the 'home' of the UI
+void menu(UserData* user, int args) {
+	int readint;
+	string readstr;
+	cout << "Welcome to your home of fintess and nutrition!" << endl;
+	
+	cout << "\n=====MENU OF OPTIONS=====" << endl;
+	cout << "0. Exit" << endl;
+	cout << "1. Create New User Profile" << endl;
+	cout << "2. Load Existing User Profile" << endl;
+
+	cout << "\nEnter an option: ";
+	cin >> readint;
+
+	while ((readint < 1) && (readint > 2)) {
+		cout << "You have entered an invalid number, please enter 1 or 2" << endl;
+		cin >> readint;
+	}
+
+	while ((readint > 0) && (readint < 3)) {
+		if (readint == 1)
+			createUser(user);
+		else if (readint == 2) {
+			cout << "\nPlease enter your name: ";
+			cin >> readstr;
+			fetchData(user, readstr);
+		}
+
+		checkData(user);
+	
+		cout << "\n=====MENU OF OPITONS=====" << endl;
+		cout << "0. Exit" << endl;
+		cout << "1. Create New User Profile" << endl;
+		cout << "2. Load Existing User Profile" << endl;
+
+		cout << "\nEnter an option: ";
+		cin >> readint;
+	}
+}	
+
 int main(int argc, char** argv) {
 	int ans;
 	string nam;
 
 	UserData* user = new UserData();
-
+	
+	menu(user, argc);
+/*
 	cout << "Welcome to your home of fitness and nutrition!" << endl;
 	
 	if (argc == 1) {
@@ -202,6 +246,7 @@ int main(int argc, char** argv) {
 	}
 
 	checkData(user);
+*/
 
 	delete user;
 	return 0;

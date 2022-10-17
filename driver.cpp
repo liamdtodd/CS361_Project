@@ -48,7 +48,6 @@ void fetchData(UserData* user, string nam) {
 //this function writes all the user's data into the userdata.txt file
 void writeFileData(UserData* user) {
 	fstream file;
-//	file.open("userdata.txt", ios::out);	
 
 	if (file.eof()) {
 		file.open("userdata.txt", ios::out);
@@ -100,6 +99,74 @@ void createUser(UserData* user) {
 	writeFileData(user);
 }
 
+//this function will delete wrong information in the file and replace it with the new, correct information
+void newDataUser(UserData* user) {
+	string nam = user->getName();
+	string readstr;
+	int readint;
+	int pos;
+	fstream file;
+	file.open("userdata.txt", ios::in | ios:: out);
+
+	while (!file.eof()) {
+		file >> readstr;	
+		if (readstr == nam) {
+			pos = file.tellg();
+			file.seekg(pos - nam.length());		//getting to position of incorrect data position
+			
+			cout << "Please enter your name: ";
+			cin >> readstr;
+			user->setName(readstr);
+			file << readstr << endl;	//setting new name info in user and text file
+
+			cout << "\nEnter your age: ";
+			cin >> readint;
+			user->setAge(readint);
+			file << readint << endl;	//setting new age infor in user and text file
+
+			cout << "\nEnter your height: ";
+			cin >> readint;
+			user->setHeight(readint);
+			file << readint << endl;	//setting new height info in user and text file
+	
+			cout << "\nEnter your weight: ";
+			cin >> readint;
+			user->setWeight(readint);
+			file << readint << endl;	//setting new weight infor in user and text file
+	
+			cout << "\nAre you 'bulk' or 'cut' weight: ";
+			cin >> readstr;
+			user->setType(readstr);
+			file << readstr << endl;	//setting new goal info in user and text file
+		}
+	}
+	
+	file.close();
+}
+
+//this function prints the user's data to the screen and verifies that it's correct
+void checkData(UserData* user) {
+        int ans;
+
+        print(user);
+        cout << "Does this information look correct? 1 - yes, 0 - no" << endl;
+        cin >> ans;
+
+	if ((ans != 1) && (ans != 0)) {
+		do {
+			cout << "Wrong value entered! Please enter 1 - yes, 0 - no" << endl;
+			cin >> ans;
+		} while ((ans != 1) && (ans != 0));
+	}
+
+        if (ans == 0) {
+                cout << "Alright, let's start over!" << endl;
+                newDataUser(user);
+		checkData(user);
+        }
+
+}
+
 int main(int argc, char** argv) {
 	int ans;
 	string nam;
@@ -112,6 +179,12 @@ int main(int argc, char** argv) {
 		cout << "You have started the software without a file name. Are you a new user? 1 - yes, 0 - no" << endl;
 		cin >> ans;
 	
+		if ((ans != 1) && (ans != 0)) {
+			do {
+				cout << "Wrong value entered! Please enter: 1 - yes, 0 - no" << endl;
+				cin >> ans;
+			} while ((ans != 1) && (ans != 0));
+		}
 		if (ans == 1)
 			createUser(user);
 		else {
@@ -128,7 +201,7 @@ int main(int argc, char** argv) {
 		fetchData(user, nam);		
 	}
 
-	print(user);
+	checkData(user);
 
 	delete user;
 	return 0;

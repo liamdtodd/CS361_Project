@@ -6,6 +6,84 @@
 
 using namespace std;
 
+//calculates the maintenance calories for the user's daily consumption
+void calcmCal(UserData* user) {
+	double hold = 0.0;
+	hold = (88.4 + (13.4 * user->getWeight())) + (4.8 * user->getHeight()) - (5.68 * user->getAge());
+	int calc = (int) hold;
+	user->getMacros()->setmCal(calc);
+}
+
+//calculates the grams of protein to consume in a day
+int calcProtein(UserData* user) {
+	double hold = 0.0;
+	hold = 0.2 * user->getMacros()->getgCal();
+	hold = hold / 4;
+	int calc = (int) hold;
+	return calc;	
+}
+
+//caluclates the grams of fat to consume in a day
+int calcFat(UserData* user) {
+	double hold = 0.0;
+	hold = 0.3 * user->getMacros()->getgCal();
+	hold = hold / 9;
+	int calc = (int) hold;
+	return calc; 	
+}
+
+//calculates the grams of carbs to consume in a day
+int calcCarb(UserData* user) {
+	double hold = 0.0;
+	hold = 0.5 * user->getMacros()->getgCal();
+	hold = hold / 4;
+	int calc = (int) hold;
+	return calc;
+}
+
+//this function will set the macronutrient goals to the UserData object
+void setUserMacros(UserData* user) {
+        int readint;
+        cout << "Would you like to: 1 - Choose your own macronutrient goals, or 0 - Use Computer generated macronutrient goals? ";
+        cin >> readint;
+
+        while ((readint != 1) && (readint != 0)) {
+                cout << "\nWrong value entered. Please enter 1 or 0" << endl;
+                cin >> readint;
+        }
+
+        calcmCal(user);
+
+        if (readint == 0) {
+                if (user->getType() == "bulk")
+                        user->getMacros()->setgCal(user->getMacros()->getmCal() + 500);
+                else
+                        user->getMacros()->setgCal(user->getMacros()->getmCal() - 500);
+                user->getMacros()->setProtein(calcProtein(user));
+                user->getMacros()->setFat(calcFat(user));
+                user->getMacros()->setCarb(calcCarb(user));
+        }
+
+        else {
+                cout << "Your maintenance calories were calculated to be: " << user->getMacros()->getmCal() << endl;
+                cout << "Enter your goal for calories consumed in a day: ";
+                cin >> readint;
+                user->getMacros()->setgCal(readint);
+
+                cout << "\nEnter your goal for grams of protein in a day: ";
+                cin >> readint;
+                user->getMacros()->setProtein(readint);
+
+                cout << "\nEnter your goal for grams of fat in a day: ";
+                cin >> readint;
+                user->getMacros()->setFat(readint);
+
+                cout << "\nEnter your goal for grams of carbohydrates in a day: ";
+                cin >> readint;
+                user->getMacros()->setCarb(readint);
+        }
+}
+         
 //this function print's all of the user's data to the screen
 void print(UserData* user) {
 	cout << "\n=====USER PROFILE=====" << endl;
@@ -14,6 +92,11 @@ void print(UserData* user) {
 	cout << "Height: " << user->getHeight() << " inches" << endl;
 	cout << "Weight: " << user->getWeight() << " pounds" << endl;
 	cout << "Fitness Goal: " << user->getType() << endl;
+	cout << "Maintenance Calories: " << user->getMacros()->getmCal() << endl;
+	cout << "Goal Calories: " << user->getMacros()->getgCal() << endl;
+	cout << "Grams of Protein: " << user->getMacros()->getProtein() << endl;
+	cout << "Grams of Fat: " << user->getMacros()->getFat() << endl;
+	cout << "Grams of Carbohydrates: " << user->getMacros()->getCarb() << endl << endl;
 }
 
 //this function reads from userdata.txt to find an existing user's data
@@ -40,6 +123,21 @@ void fetchData(UserData* user, string nam) {
 	
 			file >> readstr;
 			user->setType(readstr);
+		
+			file >> readint;
+			user->getMacros()->setmCal(readint);
+	
+			file >> readint;
+			user->getMacros()->setgCal(readint);
+			
+			file >> readint;
+			user->getMacros()->setProtein(readint);
+		
+			file >> readint;
+			user->getMacros()->setFat(readint);
+			
+			file >> readint;	
+			user->getMacros()->setCarb(readint);
 		}
 	}
 		
@@ -57,6 +155,8 @@ void writeFileData(UserData* user) {
 		file << user->getHeight() << endl;
 		file << user->getWeight() << endl;
 		file << user->getType() << endl;
+		file << user->getMacros()->getmCal() << " " << user->getMacros()->getgCal() << endl;
+		file << user->getMacros()->getProtein() << " " << user->getMacros()->getFat() << " " << user->getMacros()->getCarb() << endl;
 	} 					//first entry of data into userdata.txt
 	else {
 		file.open("userdata.txt", ios::out | ios::app);
@@ -66,6 +166,8 @@ void writeFileData(UserData* user) {
 		file << user->getHeight() << endl;
 		file << user->getWeight() << endl;
 		file << user->getType() << endl;
+		file << user->getMacros()->getmCal() << " " << user->getMacros()->getgCal() << endl;
+		file << user->getMacros()->getProtein() << " " << user->getMacros()->getFat() << " " << user->getMacros()->getCarb() << endl;
 	}					//entry of a new user's data into userdata.txt with existing data from other users
 	
 	file.close();
@@ -96,6 +198,8 @@ void createUser(UserData* user) {
 	user->setHeight(h);
 	user->setWeight(w);
 	user->setType(type);
+
+	setUserMacros(user);
 
 	writeFileData(user);
 }
@@ -139,6 +243,10 @@ void newDataUser(UserData* user) {
 			cin >> readstr;
 			user->setType(readstr);
 			file << readstr << endl;	//setting new goal info in user and text file
+		
+			setUserMacros(user);
+			file << user->getMacros()->getmCal() << " " << user->getMacros()->getgCal() << endl;
+			file << user->getMacros()->getProtein() << " " << user->getMacros()->getFat() << " " << user->getMacros()->getCarb() << endl;
 		}
 	}
 	
@@ -151,7 +259,7 @@ void checkData(UserData* user) {
         int ans;
 
         print(user);
-        cout << "Does this information look correct? 1 - yes, 0 - no" << endl;
+        cout << "Would you like to change this data? 1 - yes, 0 - no" << endl;
         cin >> ans;
 
 	if ((ans != 1) && (ans != 0)) {
@@ -161,7 +269,7 @@ void checkData(UserData* user) {
 		} while ((ans != 1) && (ans != 0));
 	}
 
-        if (ans == 0) {
+        if (ans == 1) {
                 cout << "Alright, let's start over!" << endl;
                 newDataUser(user);
 		checkData(user);
@@ -173,25 +281,26 @@ void checkData(UserData* user) {
 void menu(UserData* user, int args) {
 	int readint;
 	string readstr;
-	cout << "Welcome to your home of fintess and nutrition!" << endl;
+	cout << "Welcome to your home of fitness and nutrition!" << endl;
 	
 	cout << "\n=====MENU OF OPTIONS=====" << endl;
 	cout << "0. Exit" << endl;
 	cout << "1. Create New User Profile" << endl;
 	cout << "2. Load Existing User Profile" << endl;
+	cout << "3. Update User Profile" << endl;
 
 	cout << "\nEnter an option: ";
 	cin >> readint;
 
-	while ((readint < 1) && (readint > 2)) {
-		cout << "You have entered an invalid number, please enter 1 or 2" << endl;
+	while ((readint < 1) && (readint > 3)) {
+		cout << "You have entered an invalid number, please enter 0, 1, 2, or 3" << endl;
 		cin >> readint;
 	}
 
-	while ((readint > 0) && (readint < 3)) {
+	while ((readint > 0) && (readint < 4)) {
 		if (readint == 1)
 			createUser(user);
-		else if (readint == 2) {
+		else if ((readint == 2) || (readint == 3)) {
 			cout << "\nPlease enter your name: ";
 			cin >> readstr;
 			fetchData(user, readstr);
@@ -203,6 +312,7 @@ void menu(UserData* user, int args) {
 		cout << "0. Exit" << endl;
 		cout << "1. Create New User Profile" << endl;
 		cout << "2. Load Existing User Profile" << endl;
+		cout << "3. Update User Profile" << endl;
 
 		cout << "\nEnter an option: ";
 		cin >> readint;
@@ -216,37 +326,6 @@ int main(int argc, char** argv) {
 	UserData* user = new UserData();
 	
 	menu(user, argc);
-/*
-	cout << "Welcome to your home of fitness and nutrition!" << endl;
-	
-	if (argc == 1) {
-		cout << "You have started the software without a file name. Are you a new user? 1 - yes, 0 - no" << endl;
-		cin >> ans;
-	
-		if ((ans != 1) && (ans != 0)) {
-			do {
-				cout << "Wrong value entered! Please enter: 1 - yes, 0 - no" << endl;
-				cin >> ans;
-			} while ((ans != 1) && (ans != 0));
-		}
-		if (ans == 1)
-			createUser(user);
-		else {
-			cout << "For future use, you can run the software with 'userdata.txt' as an additional arg. Please enter your name: ";
-			cin >> nam;
-			cout << endl;
-		}
-	}
-	
-	else {
-		cout << "Please enter your name: ";
-		cin >> nam;
-		cout << endl;
-		fetchData(user, nam);		
-	}
-
-	checkData(user);
-*/
 
 	delete user;
 	return 0;

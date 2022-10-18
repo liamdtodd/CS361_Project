@@ -1,4 +1,5 @@
 #include "user.h"
+#include "nutrition.h"
 #include <fstream>
 #include <iostream>
 #include <cstring>
@@ -11,7 +12,7 @@ UserData::UserData() {
 	weight = 0;
 	age = 0;
 	fitnessType = " ";
-	filePath = " ";
+	macro = new Macros();
 }
 
 /**************************
@@ -37,8 +38,8 @@ string UserData::getType() {
 	return fitnessType;
 }
 
-string UserData::getfilePath() {
-	return filePath;
+Macros* UserData::getMacros() {
+	return macro;
 }
 
 /************************
@@ -64,9 +65,11 @@ void UserData::setType(string fit) {
 	fitnessType = fit;
 }
 
-void UserData::setfilePath(string path) {
-	filePath = path;
+void UserData::setMacros(Macros* m) {
+	macro = m;
 }
 
 //Deconstructor of UserData class
-UserData::~UserData() {}
+UserData::~UserData() {
+//	delete macros;
+}

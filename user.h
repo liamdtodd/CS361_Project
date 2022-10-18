@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <cstring>
+#include "nutrition.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ private:
 	int weight;
 	int age;
 	string fitnessType;
-	string filePath;
+	Macros* macro;
 
 public:
 	UserData();
@@ -23,14 +24,14 @@ public:
 	int getWeight();
 	int getAge();
 	string getType();
-	string getfilePath();
+	Macros* getMacros();
 
 	void setName(string);
 	void setHeight(int);
 	void setWeight(int);
 	void setAge(int);
 	void setType(string);
-	void setfilePath(string);
+	void setMacros(Macros*);
 	
 	~UserData();
 };

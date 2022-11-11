@@ -3,8 +3,13 @@
 #include <fstream>
 #include <cstring>
 #include <cstdlib>
+#include <ctime>
+#include <chrono>
+#include <thread>
 
 using namespace std;
+using namespace chrono;
+using namespace this_thread;
 
 //calculates the maintenance calories for the user's daily consumption
 void calcmCal(UserData* user) {
@@ -41,6 +46,39 @@ int calcCarb(UserData* user) {
 	return calc;
 }
 
+//this function will request data from the microservice
+void reqMicroservice(UserData* user) {
+	fstream file;
+	file.open("calculate_goals.txt", ios::out);
+	
+	file << "run\n";			//by writing 'run' to file, microservice now understands it's been requested
+	file << user->getMacros()->getmCal() << endl;	
+	file << user->getMacros()->getgCal() << endl;
+
+	file.close();
+}
+
+//this function will get the data sent by the microservice
+void dataMicroservice(UserData* user) {
+	cout << "\nCalculating Goal Macros...\n";
+	sleep_for(seconds(10));
+
+	fstream file;
+	file.open("calculate_goals.txt", ios::in);
+	double readint;
+
+	file >> readint;
+	user->getMacros()->setProtein( ((int)readint) );
+	
+	file >> readint;
+	user->getMacros()->setFat( ((int)readint) );
+	
+	file >> readint;
+	user->getMacros()->setCarb( ((int)readint) );
+
+	file.close();
+}
+	
 //this function will set the macronutrient goals to the UserData object
 void setUserMacros(UserData* user) {
         int readint;
@@ -59,9 +97,14 @@ void setUserMacros(UserData* user) {
                         user->getMacros()->setgCal(user->getMacros()->getmCal() + 500);
                 else
                         user->getMacros()->setgCal(user->getMacros()->getmCal() - 500);
-                user->getMacros()->setProtein(calcProtein(user));
+ 
+                /*
+		user->getMacros()->setProtein(calcProtein(user));
                 user->getMacros()->setFat(calcFat(user));
                 user->getMacros()->setCarb(calcCarb(user));
+ 		*/
+		reqMicroservice(user);
+		dataMicroservice(user);
         }
 
         else {
@@ -285,9 +328,9 @@ void menu(UserData* user, int args) {
 	
 	cout << "\n=====MENU OF OPTIONS=====" << endl;
 	cout << "0. Exit" << endl;
-	cout << "1. Create New User Profile" << endl;
+	cout << "1. Create New User Profile\t***Will save your data for next time's use!" << endl;
 	cout << "2. Load Existing User Profile" << endl;
-	cout << "3. Update User Profile" << endl;
+	cout << "3. Update User Profile\t***Change every field of User Profile" << endl;
 
 	cout << "\nEnter an option: ";
 	cin >> readint;
@@ -310,9 +353,9 @@ void menu(UserData* user, int args) {
 	
 		cout << "\n=====MENU OF OPITONS=====" << endl;
 		cout << "0. Exit" << endl;
-		cout << "1. Create New User Profile" << endl;
+		cout << "1. Create New User Profile\t***Will save your data for next time's use!" << endl;
 		cout << "2. Load Existing User Profile" << endl;
-		cout << "3. Update User Profile" << endl;
+		cout << "3. Update User Profile\t***Change every field of User Profile" << endl;
 
 		cout << "\nEnter an option: ";
 		cin >> readint;

@@ -1,4 +1,5 @@
 #include "user.h"
+#include "driver.h"
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -362,6 +363,7 @@ void menu(UserData* user, int args) {
 	}
 }	
 
+/*
 int main(int argc, char** argv) {
 	int ans;
 	string nam;
@@ -373,3 +375,4 @@ int main(int argc, char** argv) {
 	delete user;
 	return 0;
 }
+*/

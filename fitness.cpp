@@ -66,11 +66,11 @@ Fitness::Fitness(const Fitness& old_obj) {
 
         for (int x = 0; x < old_obj.push.size(); x++)
                 push.push_back(old_obj.push[x]);
-	for (x = 0; x < old_obj.pull.size(); x++)
+	for (int x = 0; x < old_obj.pull.size(); x++)
 		pull.push_back(old_obj.pull[x]);
-	for (x = 0; x < old_obj.legs.size(); x++)
+	for (int x = 0; x < old_obj.legs.size(); x++)
 		legs.push_back(old_obj.legs[x]);
-	for (x = 0; x < old_obj.cardio.size(); x++)
+	for (int x = 0; x < old_obj.cardio.size(); x++)
 		cardio.push_back(old_obj.cardio[x]);
 }
 
@@ -84,11 +84,11 @@ Fitness& Fitness::operator=(const Fitness& old_obj) {
 
 	        for (int x = 0; x < old_obj.push.size(); x++)
 	                push.push_back(old_obj.push[x]);
-	        for (x = 0; x < old_obj.pull.size(); x++)
+	        for (int x = 0; x < old_obj.pull.size(); x++)
 	                pull.push_back(old_obj.pull[x]);
-	        for (x = 0; x < old_obj.legs.size(); x++)
+	        for (int x = 0; x < old_obj.legs.size(); x++)
                		legs.push_back(old_obj.legs[x]);
-	        for (x = 0; x < old_obj.cardio.size(); x++)
+	        for (int x = 0; x < old_obj.cardio.size(); x++)
         	        cardio.push_back(old_obj.cardio[x]);
 	}
 

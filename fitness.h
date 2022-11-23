@@ -11,7 +11,7 @@ class Fitness {
 private:
 	vector<string> push;
 	vector<string> pull;
-	vetor<string> legs;
+	vector<string> legs;
 	vector<string> cardio;	
 
 public:

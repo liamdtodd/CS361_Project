@@ -19,6 +19,11 @@ void calcmCal(UserData*);
 void reqMicroservice(UserData*);
 void dataMicroservice(UserData*);
 
+/* New Goals */
+void newFitGoals(UserData*);
+void writeFittoFile(UserData*);
+void getFitData(UserData*);
+
 /* User's Data */
 void setUserMacros(UserData*);
 void fetchData(UserData*, string);

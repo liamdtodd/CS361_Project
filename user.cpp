@@ -42,6 +42,10 @@ Macros* UserData::getMacros() {
 	return macro;
 }
 
+Fitness* UserData::getFitness() {
+	return fitness;
+}
+
 /************************
  * SETTER FUNCTIONS FOR THE USERDATA CLASS
  * *********************/
@@ -67,6 +71,10 @@ void UserData::setType(string fit) {
 
 void UserData::setMacros(Macros* m) {
 	macro = m;
+}
+
+void UserData::setFitness(Fitness* fit) {
+	fitness = fit;
 }
 
 //Deconstructor of UserData class

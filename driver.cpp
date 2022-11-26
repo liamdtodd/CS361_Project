@@ -52,6 +52,121 @@ void dataMicroservice(UserData* user) {
 
 	file.close();
 }
+
+//this function will create new fitness goals for the user
+void newFitGoals(UserData* user) {
+	int readint;
+	cout << "Would you like to: 1 - Choose your own Fitness Plan, or 0 - Computer Generated Fitness Plan" << endl;
+	cin >> readint;
+	
+	if (readint == 1)
+		getFitData(user);
+	else {
+		vector<string> pushday;
+		vector<string> pullday;
+		vector<string> legday;
+		vector<string> cardios;
+		pushday.push_back("Bench Press - 3x5");
+		pushday.push_back("Incline Press - 3x8");
+		pushday.push_back("Chest Flys - 3x10");
+		pushday.push_back("Tricep Skullcrushers - 3x15");
+		pushday.push_back("Tricep Rope Pulldowns - 3x10");
+		pushday.push_back("Cable Shoulder Raises - 3x10");
+		pushday.push_back("Arnold Shoulder Press - 3x12");
+		user->getFitness()->setPush(pushday);
+
+		pullday.push_back("Barbell Rows - 3x12");
+		pullday.push_back("Lat Pulldown - 3x10");
+		pullday.push_back("Cable Rows - 3x12");
+		pullday.push_back("Straight-Arm Lat Pulldown - 3x10");
+		pullday.push_back("Incline Bicep Curls - 3x8");
+		pullday.push_back("Cross-Body Hammer Curls - 3x8");
+		pullday.push_back("Preacher Curls - 2x10");
+		user->getFitness()->setPull(pullday);
+
+		legday.push_back("Back Squat - 3x5");
+		legday.push_back("Romanian Deadlifts - 3x8");
+		legday.push_back("Seated Calf Raise - 3x12");
+		legday.push_back("Leg Press - 4x15");
+		legday.push_back("Lying Leg Curl - 3x8");
+		legday.push_back("Leg Extensions - 3x10");
+		user->getFitness()->setLegs(legday);
+
+		cardios.push_back("30 min Jog");
+		user->getFitness()->setCardio(cardios);
+	}
+
+	writeFittoFile(user);
+}
+
+//this function will get data from the user to fill their workout plan
+void getFitData(UserData* user) {
+	vector<string> pushday;
+	vector<string> pullday;
+	vector<string> legday;
+	vector<string> cardios;
+	string readstr;
+
+	while (readstr != "none") {
+		cout << "Sample entry: 'Bench Press - 3x10'" << endl;
+		cout << "Please enter Push day (chest, shoulder, tricep) workouts. Enter 'none' to stop" << endl;
+		cin >> readstr;
+		if (readstr != "none") 
+			pushday.push_back(readstr);
+	}
+
+	while (readstr != "none") {
+		cout << "Please enter Pull day (back, bicep) workouts. Enter 'none' to stop" << endl;
+		cin >> readstr;
+		if (readstr != "none")
+			pullday.push_back(readstr);
+	}
+
+	while (readstr != "none") {
+		cout << "Please enter Leg day (leg) workouts. Enter 'none' to stop" << endl;
+		cin >> readstr;
+		if (readstr != "none")
+			legday.push_back(readstr);
+	}
+	
+	while (readstr != "none") {
+		cout << "Please enter cardio (running, swimming, etc.) workouts. Enter 'none' to stop" << endl;
+		cin >> readstr;
+		if (readstr != "none")
+			cardios.push_back(readstr);
+	}
+	
+	user->getFitness()->setPush(pushday);
+	user->getFitness()->setPull(pullday);
+	user->getFitness()->setLegs(legday);
+	user->getFitness()->setCardio(cardios);
+}
+
+//this function will write the fitness data to a separate user data file
+void writeFittoFile(UserData* user) {
+	fstream file;
+	file.open("fitnessdata.txt", ios::out);
+	
+	file << user->getName() << endl;
+	file << "PUSH" << endl;
+	for (int x = 0; x < user->getFitness()->getPush().size(); x++)
+		file << user->getFitness()->getPush()[x] << endl;
+
+	file << "\nPULL" << endl;
+	for (int x = 0; x < user->getFitness()->getPull().size(); x++) 
+		file << user->getFitness()->getPull()[x] << endl;
+
+	file << "\nLEGS" << endl;
+	for (int x = 0; x < user->getFitness()->getLegs().size(); x++)
+		file << user->getFitness()->getLegs()[x] << endl;
+	
+	file << "\nCARDIO" << endl;
+	for (int x = 0; x < user->getFitness()->getCardio().size(); x++)
+		file << user->getFitness()->getCardio()[x] << endl;
+
+	file << "\n\n";
+	file.close();
+}
 	
 //this function will set the macronutrient goals to the UserData object
 void setUserMacros(UserData* user) {
@@ -220,6 +335,7 @@ void createUser(UserData* user) {
 	user->setType(type);
 
 	setUserMacros(user);
+	newFitGoals(user);
 
 	writeFileData(user);
 }
@@ -272,6 +388,7 @@ void newDataUser(UserData* user) {
 	
 	file << "\n";
 	file.close();
+	newFitGoals(user);
 }
 
 //this function print's all of the user's data to the screen

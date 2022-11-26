@@ -4,6 +4,7 @@
 #include <fstream>
 #include <cstring>
 #include "nutrition.h"
+#include "fitness.h"
 
 using namespace std;
 
@@ -15,6 +16,7 @@ private:
 	int age;
 	string fitnessType;
 	Macros* macro;
+	Fitness* fitness;
 
 public:
 	UserData();
@@ -25,6 +27,7 @@ public:
 	int getAge();
 	string getType();
 	Macros* getMacros();
+	Fitness* getFitness();
 
 	void setName(string);
 	void setHeight(int);
@@ -32,7 +35,8 @@ public:
 	void setAge(int);
 	void setType(string);
 	void setMacros(Macros*);
-	
+	void setFitness(Fitness*);	
+
 	~UserData();
 };
 

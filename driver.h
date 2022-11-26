@@ -12,23 +12,23 @@
 
 using namespace std;
 
+/* Calculate Maintenance Cals */
 void calcmCal(UserData*);
-int calcProtein(UserData*);
-int calcFat(UserData*);
-int calcCarb(UserData*);
 
+/* Microservice */
 void reqMicroservice(UserData*);
 void dataMicroservice(UserData*);
 
+/* User's Data */
 void setUserMacros(UserData*);
 void fetchData(UserData*, string);
 void writeFileData(UserData*);
 void checkData(UserData*);
 
+/* Create/New Data */
 void createUser(UserData*);
 void newDataUser(UserData*);
 
 void print(UserData*);
-//void menu(UserData*, int);
 
 #endif

@@ -64,8 +64,8 @@ Fitness::Fitness(const Fitness& old_obj) {
 	legs.clear();
 	cardio.clear();
 
-        for (int x = 0; x < old_obj.push.size(); x++)
-                push.push_back(old_obj.push[x]);
+    for (int x = 0; x < old_obj.push.size(); x++)
+        push.push_back(old_obj.push[x]);
 	for (int x = 0; x < old_obj.pull.size(); x++)
 		pull.push_back(old_obj.pull[x]);
 	for (int x = 0; x < old_obj.legs.size(); x++)

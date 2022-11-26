@@ -29,6 +29,6 @@ void createUser(UserData*);
 void newDataUser(UserData*);
 
 void print(UserData*);
-void menu(UserData*, int);
+//void menu(UserData*, int);
 
 #endif

@@ -99,11 +99,6 @@ void setUserMacros(UserData* user) {
                 else
                         user->getMacros()->setgCal(user->getMacros()->getmCal() - 500);
  
-                /*
-		user->getMacros()->setProtein(calcProtein(user));
-                user->getMacros()->setFat(calcFat(user));
-                user->getMacros()->setCarb(calcCarb(user));
- 		*/
 		reqMicroservice(user);
 		dataMicroservice(user);
         }
@@ -321,6 +316,7 @@ void checkData(UserData* user) {
 
 }
 
+/*
 //a menu of options of interactivity for the user, the 'home' of the UI
 void menu(UserData* user, int args) {
 	int readint;
@@ -361,18 +357,4 @@ void menu(UserData* user, int args) {
 		cout << "\nEnter an option: ";
 		cin >> readint;
 	}
-}	
-
-/*
-int main(int argc, char** argv) {
-	int ans;
-	string nam;
-
-	UserData* user = new UserData();
-	
-	menu(user, argc);
-
-	delete user;
-	return 0;
-}
-*/
+}*/

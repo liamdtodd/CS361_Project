@@ -33,18 +33,21 @@ void menu(UserData* user) {
 	cout << "1. Create New User Profile\t***Will save your data for next time's use!" << endl;
 	cout << "2. Load Existing User Profile" << endl;
 	cout << "3. Update User Profile\t***Change every field of User Profile" << endl;
+	cout << "4. View Personal Fitness Plan" << endl;
 
 	cout << "\nEnter an option: ";
 	cin >> readint;
 
-	while ((readint < 1) && (readint > 3)) {
-		cout << "You have entered an invalid number, please enter 0, 1, 2, or 3" << endl;
+	while ((readint < 1) && (readint > 4)) {
+		cout << "You have entered an invalid number, please enter 0, 1, 2, 3, or 4" << endl;
 		cin >> readint;
 	}
 
-	while ((readint > 0) && (readint < 4)) {
+	while ((readint > 0) && (readint < 5)) {
 		if (readint == 1)
 			createUser(user);
+		else if (readint == 4) 
+			displayFitness(user);
 		else {
 			cout << "\nPlease enter your name: ";
 			cin >> readstr;
@@ -59,6 +62,7 @@ void menu(UserData* user) {
 		cout << "1. Create New User Profile\t***Will save your data for next time's use!" << endl;
 		cout << "2. Load Existing User Profile" << endl;
 		cout << "3. Update User Profile\t***Change every field of User Profile" << endl;
+		cout << "4. View Personal Fitness Plan" << endl;
 
 		cout << "\nEnter an option: ";
 		cin >> readint;

@@ -27,6 +27,11 @@ public:
 	void setLegs(vector<string>);
 	void setCardio(vector<string>);
 
+	void addPush(string);
+	void addPull(string);
+	void addLegs(string);
+	void addCardio(string);
+
 	Fitness(const Fitness&);
 	Fitness& operator=(const Fitness&);
 	~Fitness();

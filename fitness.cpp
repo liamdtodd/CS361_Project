@@ -30,39 +30,44 @@ vector<string> Fitness::getCardio() {
 
 /*********** SETTERS *************/
 void Fitness::setPush(vector<string> array) {
-//	push.clear();
-
 	for (int x = 0; x < array.size(); x++) 
 		push.push_back(array[x]);
 }
 
 void Fitness::setPull(vector<string> array) {
-//	pull.clear();
-
 	for (int x = 0; x < array.size(); x++) 
 		pull.push_back(array[x]);
 }
 
 void Fitness::setLegs(vector<string> array) {
-//	legs.clear();
-
 	for (int x = 0; x < array.size(); x++) 
 		legs.push_back(array[x]);
 }
 
 void Fitness::setCardio(vector<string> array) {
-//	cardio.clear();
-
 	for (int x = 0; x < array.size(); x++) 
 		cardio.push_back(array[x]);
 }
 
+/* ADD VALUES TO FITNESS VECTORS */
+void Fitness::addPush(string val) {
+	push.push_back(val);
+}
+
+void Fitness::addPull(string val) {
+	pull.push_back(val);
+}
+
+void Fitness::addLegs(string val) {
+	legs.push_back(val);
+}
+
+void Fitness::addCardio(string val) {
+	cardio.push_back(val);
+}
+
 /* Copy Constructor */
 Fitness::Fitness(const Fitness& old_obj) {
-//	push.clear();
-//	pull.clear();
-//	legs.clear();
-//	cardio.clear();
 
     for (int x = 0; x < old_obj.push.size(); x++)
         push.push_back(old_obj.push[x]);
@@ -77,10 +82,6 @@ Fitness::Fitness(const Fitness& old_obj) {
 /* Assignment Operator Overloader */
 Fitness& Fitness::operator=(const Fitness& old_obj) {
 	if (this != &old_obj) {
-	//	push.clear();
-	  //      pull.clear();
-	    //    legs.clear();
-	      //  cardio.clear();
 
 	        for (int x = 0; x < old_obj.push.size(); x++)
 	                push.push_back(old_obj.push[x]);

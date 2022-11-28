@@ -62,49 +62,36 @@ void newFitGoals(UserData* user) {
 	if (readint == 1)
 		getFitData(user);
 	else {
-		vector<string> pushday;
-		vector<string> pullday;
-		vector<string> legday;
-		vector<string> cardios;
-		pushday.push_back("Bench Press - 3x5");
-		pushday.push_back("Incline Press - 3x8");
-		pushday.push_back("Chest Flys - 3x10");
-		pushday.push_back("Tricep Skullcrushers - 3x15");
-		pushday.push_back("Tricep Rope Pulldowns - 3x10");
-		pushday.push_back("Cable Shoulder Raises - 3x10");
-		pushday.push_back("Arnold Shoulder Press - 3x12");
-		user->getFitness()->setPush(pushday);
+		user->getFitness()->addPush("Bench Press - 3x5");
+		user->getFitness()->addPush("Incline Press - 3x8");
+		user->getFitness()->addPush("Chest Flys - 3x10");
+		user->getFitness()->addPush("Tricep Skullcrushers - 3x15");
+		user->getFitness()->addPush("Tricep Rope Pulldowns - 3x10");
+		user->getFitness()->addPush("Cable Shoulder Raises - 3x10");
+		user->getFitness()->addPush("Arnold Shoulder Press - 3x12");
 
-		pullday.push_back("Barbell Rows - 3x12");
-		pullday.push_back("Lat Pulldown - 3x10");
-		pullday.push_back("Cable Rows - 3x12");
-		pullday.push_back("Straight-Arm Lat Pulldown - 3x10");
-		pullday.push_back("Incline Bicep Curls - 3x8");
-		pullday.push_back("Cross-Body Hammer Curls - 3x8");
-		pullday.push_back("Preacher Curls - 2x10");
-		user->getFitness()->setPull(pullday);
+		user->getFitness()->addPull("Barbell Rows - 3x12");
+		user->getFitness()->addPull("Lat Pulldown - 3x10");
+		user->getFitness()->addPull("Cable Rows - 3x12");
+		user->getFitness()->addPull("Straight-Arm Lat Pulldown - 3x10");
+		user->getFitness()->addPull("Incline Bicep Curls - 3x8");
+		user->getFitness()->addPull("Cross-Body Hammer Curls - 3x8");
+		user->getFitness()->addPull("Preacher Curls - 2x10");
 
-		legday.push_back("Back Squat - 3x5");
-		legday.push_back("Romanian Deadlifts - 3x8");
-		legday.push_back("Seated Calf Raise - 3x12");
-		legday.push_back("Leg Press - 4x15");
-		legday.push_back("Lying Leg Curl - 3x8");
-		legday.push_back("Leg Extensions - 3x10");
-		user->getFitness()->setLegs(legday);
+		user->getFitness()->addLegs("Back Squat - 3x5");
+		user->getFitness()->addLegs("Romanian Deadlifts - 3x8");
+		user->getFitness()->addLegs("Seated Calf Raise - 3x12");
+		user->getFitness()->addLegs("Leg Press - 4x15");
+		user->getFitness()->addLegs("Lying Leg Curl - 3x8");
+		user->getFitness()->addLegs("Leg Extensions - 3x10");
 
-		cardios.push_back("30 min Jog");
-		user->getFitness()->setCardio(cardios);
+		user->getFitness()->addCardio("30 min Jog");
 	}
-
 	writeFittoFile(user);
 }
 
 //this function will get data from the user to fill their workout plan
 void getFitData(UserData* user) {
-	vector<string> pushday;
-	vector<string> pullday;
-	vector<string> legday;
-	vector<string> cardios;
 	string readstr;
 
 	while (readstr != "none") {
@@ -112,34 +99,30 @@ void getFitData(UserData* user) {
 		cout << "Please enter Push day (chest, shoulder, tricep) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none") 
-			pushday.push_back(readstr);
+			user->getFitness()->addPush(readstr);
 	}
 
 	while (readstr != "none") {
 		cout << "Please enter Pull day (back, bicep) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none")
-			pullday.push_back(readstr);
+			user->getFitness()->addPull(readstr);
 	}
 
 	while (readstr != "none") {
 		cout << "Please enter Leg day (leg) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none")
-			legday.push_back(readstr);
+			user->getFitness()->addLegs(readstr);
 	}
 	
 	while (readstr != "none") {
 		cout << "Please enter cardio (running, swimming, etc.) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none")
-			cardios.push_back(readstr);
+			user->getFitness()->addCardio(readstr);
 	}
 	
-	user->getFitness()->setPush(pushday);
-	user->getFitness()->setPull(pullday);
-	user->getFitness()->setLegs(legday);
-	user->getFitness()->setCardio(cardios);
 }
 
 //this function will write the fitness data to a separate user data file
@@ -404,4 +387,26 @@ void print(UserData* user) {
 	cout << "Grams of Protein: " << user->getMacros()->getProtein() << endl;
 	cout << "Grams of Fat: " << user->getMacros()->getFat() << endl;
 	cout << "Grams of Carbohydrates: " << user->getMacros()->getCarb() << endl << endl;
+}
+
+//this function will display the user's fitness workout plan
+void displayFitness(UserData* user) {
+	string readstr, filestr;
+	cout << "Please enter your name: ";
+	cin >> readstr;
+	fetchData(user, readstr);
+
+	fstream file;
+	file.open("fitnessdata.txt", ios::in);
+
+	getline(file, filestr);
+	while (!file.eof()) {
+		if (filestr == readstr) {
+			while (!file.eof()) {
+				getline(file, filestr);
+				cout << filestr << endl;
+			}
+		} else
+			getline(file, filestr);
+	}	
 }

@@ -13,6 +13,7 @@ UserData::UserData() {
 	age = 0;
 	fitnessType = " ";
 	macro = new Macros();
+	fitness = new Fitness();
 }
 
 /**************************

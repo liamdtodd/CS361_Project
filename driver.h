@@ -34,6 +34,8 @@ void checkData(UserData*);
 void createUser(UserData*);
 void newDataUser(UserData*);
 
+/* Printing User's Data */
 void print(UserData*);
+void displayFitness(UserData*);
 
 #endif

@@ -42,7 +42,7 @@ void dataMicroservice(UserData* user) {
 	double readint;
 
 	file >> readint;
-	user->getMacros()->setProtein( ((int)readint) );
+	user->getMacros()->setProtein( ((int)readint) );	//writing necessary data for microservice to use
 	
 	file >> readint;
 	user->getMacros()->setFat( ((int)readint) );
@@ -85,9 +85,9 @@ void newFitGoals(UserData* user) {
 		user->getFitness()->addLegs("Lying Leg Curl - 3x8");
 		user->getFitness()->addLegs("Leg Extensions - 3x10");
 
-		user->getFitness()->addCardio("30 min Jog");
+		user->getFitness()->addCardio("30 min Jog");	//computer generated, the computer's recommendation
 	}
-	writeFittoFile(user);
+	writeFittoFile(user);								//write this to user's data
 }
 
 //this function will get data from the user to fill their workout plan
@@ -99,28 +99,28 @@ void getFitData(UserData* user) {
 		cout << "Please enter Push day (chest, shoulder, tricep) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none") 
-			user->getFitness()->addPush(readstr);
+			user->getFitness()->addPush(readstr);		//user enters own data
 	}
 
 	while (readstr != "none") {
 		cout << "Please enter Pull day (back, bicep) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none")
-			user->getFitness()->addPull(readstr);
+			user->getFitness()->addPull(readstr);		//user enters own data
 	}
 
 	while (readstr != "none") {
 		cout << "Please enter Leg day (leg) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none")
-			user->getFitness()->addLegs(readstr);
+			user->getFitness()->addLegs(readstr);		//user enters own data
 	}
 	
 	while (readstr != "none") {
 		cout << "Please enter cardio (running, swimming, etc.) workouts. Enter 'none' to stop" << endl;
 		cin >> readstr;
 		if (readstr != "none")
-			user->getFitness()->addCardio(readstr);
+			user->getFitness()->addCardio(readstr);		//user enters data
 	}
 	
 }
@@ -133,19 +133,19 @@ void writeFittoFile(UserData* user) {
 	file << user->getName() << endl;
 	file << "PUSH" << endl;
 	for (int x = 0; x < user->getFitness()->getPush().size(); x++)
-		file << user->getFitness()->getPush()[x] << endl;
+		file << user->getFitness()->getPush()[x] << endl;	//write push data to file
 
 	file << "\nPULL" << endl;
 	for (int x = 0; x < user->getFitness()->getPull().size(); x++) 
-		file << user->getFitness()->getPull()[x] << endl;
+		file << user->getFitness()->getPull()[x] << endl;	//write pull data to file
 
 	file << "\nLEGS" << endl;
 	for (int x = 0; x < user->getFitness()->getLegs().size(); x++)
-		file << user->getFitness()->getLegs()[x] << endl;
+		file << user->getFitness()->getLegs()[x] << endl;	//write leg data to file
 	
 	file << "\nCARDIO" << endl;
 	for (int x = 0; x < user->getFitness()->getCardio().size(); x++)
-		file << user->getFitness()->getCardio()[x] << endl;
+		file << user->getFitness()->getCardio()[x] << endl;	//write cardio data to file
 
 	file << "\n\n";
 	file.close();
@@ -171,7 +171,7 @@ void setUserMacros(UserData* user) {
                         user->getMacros()->setgCal(user->getMacros()->getmCal() - 500);
  
 		reqMicroservice(user);
-		dataMicroservice(user);
+		dataMicroservice(user);			//microservice provides computer recommendation for user's nutrition
         }
 
         else {
@@ -190,7 +190,7 @@ void setUserMacros(UserData* user) {
 
                 cout << "\nEnter your goal for grams of carbohydrates in a day: ";
                 cin >> readint;
-                user->getMacros()->setCarb(readint);
+                user->getMacros()->setCarb(readint);		//user decides own nutrition plan
         }
 }
 
@@ -202,7 +202,7 @@ void fetchData(UserData* user, string nam) {
 	string readstr;
 	int readint;
 
-	while (!file.eof()) {
+	while (!file.eof()) {				//go through file until name of user is found
 		file >> readstr;
 		if (readstr == nam) {
 			user->setName(readstr);
@@ -232,7 +232,7 @@ void fetchData(UserData* user, string nam) {
 			user->getMacros()->setFat(readint);
 			
 			file >> readint;	
-			user->getMacros()->setCarb(readint);
+			user->getMacros()->setCarb(readint);		//load all data of user into UserData* class
 		}
 	}
 		
@@ -280,12 +280,12 @@ void checkData(UserData* user) {
 		do {
 			cout << "Wrong value entered! Please enter 1 - yes, 0 - no" << endl;
 			cin >> ans;
-		} while ((ans != 1) && (ans != 0));
+		} while ((ans != 1) && (ans != 0));		//error handle incorrect values
 	}
 
         if (ans == 1) {
                 cout << "Alright, let's start over!" << endl;
-                newDataUser(user);
+                newDataUser(user);				//will start updating user's data
 		checkData(user);
         }
 
@@ -315,12 +315,12 @@ void createUser(UserData* user) {
 	user->setAge(a);
 	user->setHeight(h);
 	user->setWeight(w);
-	user->setType(type);
+	user->setType(type);					//storing user data into object 'user'
 
-	setUserMacros(user);
-	newFitGoals(user);
+	setUserMacros(user);					//getting user's macros
+	newFitGoals(user);						//getting user's fitness plan
 
-	writeFileData(user);
+	writeFileData(user);					//write user data to file
 }
 
 //this function will delete wrong information in the file and replace it with the new, correct information
@@ -400,11 +400,11 @@ void displayFitness(UserData* user) {
 	file.open("fitnessdata.txt", ios::in);
 
 	getline(file, filestr);
-	while (!file.eof()) {
+	while (!file.eof()) {				//go through file until user's name is found
 		if (filestr == readstr) {
 			while (!file.eof()) {
 				getline(file, filestr);
-				cout << filestr << endl;
+				cout << filestr << endl;	//print user's fitness workout plan to screen
 			}
 		} else
 			getline(file, filestr);

@@ -35,8 +35,7 @@ void reqMicroservice(UserData* user) {
 //this function will get the data sent by the microservice
 void dataMicroservice(UserData* user) {
 	cout << "\nCalculating Goal Macros...\n";
-	sleep_for(seconds(10));
-
+	
 	fstream file;
 	file.open("calculate_goals.txt", ios::in);
 	double readint;

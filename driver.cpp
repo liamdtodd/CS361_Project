@@ -27,7 +27,7 @@ void reqMicroservice(UserData* user) {
 	
 	file << "run\n";			//by writing 'run' to file, microservice now understands it's been requested
 	file << user->getMacros()->getmCal() << endl;	
-	file << user->getMacros()->getgCal() << endl;
+	file << user->getMacros()->getgCal() << endl;		//writing necessary data for microservice use
 
 	file.close();
 }
@@ -35,13 +35,13 @@ void reqMicroservice(UserData* user) {
 //this function will get the data sent by the microservice
 void dataMicroservice(UserData* user) {
 	cout << "\nCalculating Goal Macros...\n";
-	
+
 	fstream file;
 	file.open("calculate_goals.txt", ios::in);
 	double readint;
 
 	file >> readint;
-	user->getMacros()->setProtein( ((int)readint) );	//writing necessary data for microservice to use
+	user->getMacros()->setProtein( ((int)readint) );	//reading data from microservice
 	
 	file >> readint;
 	user->getMacros()->setFat( ((int)readint) );
